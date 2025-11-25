@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tremblay Sound - Customize</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #222;
+            margin-left: 10px;
+        }
+
+        .logo span {
+            color: #4a6ee0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: #444;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #4a6ee0;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #444;
+        }
+
+        /* Sidebar for mobile */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 2rem;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: #444;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-links {
+            list-style: none;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-links a {
+            color: #444;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .sidebar-links a:hover {
+            color: #4a6ee0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+            position: relative;
+            color: #222;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #4a6ee0;
+            border-radius: 2px;
+        }
+
+        /* Customization Layout */
+        .customize-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Preview Section */
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #222;
+            text-align: center;
+        }
+
+        .preview-frame {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .frame-container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background-color: #f5f5f5;
+            border: 8px solid #c0c0c0; /* 8px FRAME BORDER */
+            transition: border-color 0.3s;
+            border-radius: 8px;
+        }
+
+        .frame-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform-origin: center;
+        }
+
+        /* Color Options */
+        .color-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border 0.3s, transform 0.2s;
+        }
+
+        .color-option.active {
+            border: 3px solid #333;
+            transform: scale(1.05);
+        }
+
+        .color-silver {
+            background-color: #c0c0c0;
+        }
+
+        .color-gold {
+            background-color: #d4af37;
+        }
+
+        .model-specs {
+            font-size: 0.95rem;
+            color: #444;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .model-specs p {
+            margin-bottom: 0.2rem;
+        }
+
+        /* Options Section */
+        .options-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .options-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #222;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #4a6ee0;
+            border-bottom: 3px solid #4a6ee0;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            border: 3px solid transparent;
+            transition: border 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gallery-item.active {
+            border: 3px solid #4a6ee0;
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.18);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 117, 252, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Image Editor Modal (from lower code, adapted) */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 15px;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #222;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .image-editor {
+            width: 100%;
+            height: auto;
+            padding: 20px 0;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f5f5f5;
+            touch-action: none;
+        }
+
+        #editor-frame {
+            position: relative;
+            overflow: hidden;
+            margin: auto;
+            background: #00000010;
+        }
+
+        .ratio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.4;
+            z-index: 5;
+        }
+
+        .ratio-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.25);
+        }
+
+        .editable-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: grab;
+            transform-origin: center;
+        }
+
+        .editor-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #444;
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+
+        .footer-logo span {
+            color: #4a6ee0;
+        }
+
+        .footer-links {
+            display: flex;
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links li {
+            margin: 0 1rem;
+        }
+
+        .footer-links a {
+            color: #444;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #4a6ee0;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .customize-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+            }
+
+            .footer-links li {
+                margin: 0.5rem 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 390px) {
+            header {
+                padding: 0.8rem 1rem;
+            }
+
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .logo h1 {
+                font-size: 1.4rem;
+            }
+
+            .mobile-menu {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>TREMBLAY <span>SOUND</span></h1>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar for Mobile -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Menu</h2>
+            <button class="close-sidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title" id="model-title" style="display: none;">Customize Your Speaker</h2>
+        
+        <div class="customize-grid">
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <h3 class="preview-title" id="preview-title">TA-4 Customization</h3>
+                
+                <div class="preview-frame">
+                    <div class="frame-container" id="frame-container">
+                        <div class="frame-image" id="preview-image"></div>
+                    </div>
+                </div>
+                
+                <div class="model-specs">
+                    <p id="model-dimensions">Dimensions: 450×300×66.7 mm</p>
+                    <p id="model-power">Power: 60W / 8 ohms</p>
+                </div>
+                
+                <div class="color-options">
+                    <div class="color-option color-silver active" data-color="#c0c0c0"></div>
+                    <div class="color-option color-gold" data-color="#d4af37"></div>
+                </div>
+            </div>
+            
+            <!-- Options Section -->
+            <div class="options-section">
+                <h3 class="options-title">Customization Options</h3>
+                
+                <div class="tabs">
+                    <div class="tab active" data-category="art">Art</div>
+                    <div class="tab" data-category="cubism">Cubism</div>
+                    <div class="tab" data-category="car">Car</div>
+                    <div class="tab" data-category="realistic">realistic</div>
+                    <div class="tab" data-category="buddha">Buddha</div>
+                </div>
+                
+                <div class="gallery" id="image-gallery">
+                    <!-- Images will be dynamically loaded here -->
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="edit-image-btn">Edit Image</button>
+                    <button class="btn btn-primary" id="save-button">Save Design</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Editor Modal (from lower design) -->
+    <div class="modal" id="image-editor-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Image Position</h3>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="editor-container">
+                    <div class="image-editor" id="image-editor">
+                        <div id="editor-frame">
+                            <div class="ratio-overlay" id="editor-ratio-overlay"></div>
+                            <div class="editable-image" id="editable-image"></div>
+                        </div>
+                    </div>
+
+                    <div class="editor-controls">
+                        <div class="control-group">
+                            <p>Use gestures to edit:</p>
+                            <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Drag to move image</li>
+                                <li>Pinch to zoom in/out</li>
+                                <li>Two fingers to rotate</li>
+                                <li>Mouse wheel to zoom (desktop)</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-secondary" id="reset-position">Reset Position</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-edit">Cancel</button>
+                <button class="btn btn-primary" id="save-edit">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">TREMBLAY <span>SOUND</span></div>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="copyright">© 2023 Tremblay Sound. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // ========= MOBILE MENU =========
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const sidebar = document.querySelector('.sidebar');
+        const closeSidebar = document.querySelector('.close-sidebar');
+        const overlay = document.querySelector('.overlay');
+
+        mobileMenu.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // ========= MODEL DATA =========
+        const models = {
+            "TA-4": {
+                title: "TA-4 Customization",
+                dimensions: "450×300×66.7 mm",
+                power: "60W / 8 ohms",
+                ratio: "2:3"
+            },
+            "TA-6": {
+                title: "TA-6 Customization",
+                dimensions: "750×375×66.7 mm",
+                power: "90W / 6 ohms",
+                ratio: "1:2"
+            },
+            "TA-8": {
+                title: "TA-8 Customization",
+                dimensions: "900×600×66.7 mm",
+                power: "120W / 4 ohms",
+                ratio: "2:3"
+            }
+        };
+
+        let currentModelKey = null;
+        let currentCategory = "art";
+        let currentImage = null;
+
+        // single transform object used for both preview + editor
+        let imageTransform = {
+            scale: 1,
+            translateX: 0,
+            translateY: 0,
+            rotate: 0
+        };
+
+        // DOM Elements
+        const modelTitle = document.getElementById('model-title');
+        const previewTitle = document.getElementById('preview-title');
+        const modelDimensions = document.getElementById('model-dimensions');
+        const modelPower = document.getElementById('model-power');
+        const frameContainer = document.getElementById('frame-container');
+        const previewImage = document.getElementById('preview-image');
+
+        const colorOptions = document.querySelectorAll('.color-option');
+        const tabs = document.querySelectorAll('.tab');
+        const imageGallery = document.getElementById('image-gallery');
+        const editImageBtn = document.getElementById('edit-image-btn');
+        const saveButton = document.getElementById('save-button');
+
+        const imageEditorModal = document.getElementById('image-editor-modal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const cancelEditBtn = document.getElementById('cancel-edit');
+        const saveEditBtn = document.getElementById('save-edit');
+        const resetPositionBtn = document.getElementById('reset-position');
+
+        const editorFrame = document.getElementById('editor-frame');
+        const editableImage = document.getElementById('editable-image');
+
+        // ========= INIT =========
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const modelParam = urlParams.get('model');
+
+            if (modelParam && models[modelParam]) {
+                currentModelKey = modelParam;
+            } else {
+                // if invalid model, default to TA-4, no redirect to avoid loop
+                currentModelKey = "TA-4";
+            }
+
+            const modelData = models[currentModelKey];
+
+            modelTitle.textContent = modelData.title;
+            previewTitle.textContent = modelData.title;
+            modelDimensions.textContent = `Dimensions: ${modelData.dimensions}`;
+            modelPower.textContent = `Power: ${modelData.power}`;
+
+            // set ratio for preview + editor
+            setFrameDimensions(modelData.ratio);
+
+            // default image
+            currentImage = 'img/art/1.jpeg';
+
+            // initial preview
+            updatePreview();
+
+            // load gallery
+            loadCategoryImages(currentCategory);
+
+            // attach listeners
+            initEvents();
+        });
+
+        // ========= RATIO HANDLING =========
+        function setFrameDimensions(ratio) {
+            const ratioParts = ratio.split(':');
+            const widthRatio = parseInt(ratioParts[0], 10);
+            const heightRatio = parseInt(ratioParts[1], 10);
+
+            const frameWidth = frameContainer.offsetWidth;
+            const frameHeight = frameWidth * (heightRatio / widthRatio);
+
+            frameContainer.style.height = `${frameHeight}px`;
+
+            // editor frame same ratio
+            if (editorFrame) {
+                // keep width limited for modal
+                const maxEditorWidth = 350;
+                const editorWidth = Math.min(frameWidth, maxEditorWidth);
+                const editorHeight = editorWidth * (heightRatio / widthRatio);
+
+                editorFrame.style.width = `${editorWidth}px`;
+                editorFrame.style.height = `${editorHeight}px`;
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if (!currentModelKey) return;
+            const modelData = models[currentModelKey];
+            setFrameDimensions(modelData.ratio);
+        });
+
+        // ========= PREVIEW UPDATE =========
+        function applyTransformToElement(element) {
+            element.style.transform = `translate(${imageTransform.translateX}px, ${imageTransform.translateY}px) scale(${imageTransform.scale}) rotate(${imageTransform.rotate}deg)`;
+        }
+
+        function updatePreview() {
+            previewImage.style.backgroundImage = `url('${currentImage}')`;
+            applyTransformToElement(previewImage);
+        }
+
+        function resetTransform() {
+            imageTransform = {
+                scale: 1,
+                translateX: 0,
+                translateY: 0,
+                rotate: 0
+            };
+            applyTransformToElement(editableImage);
+            applyTransformToElement(previewImage);
+        }
+
+        // ========= GALLERY =========
+        function loadCategoryImages(category) {
+            imageGallery.innerHTML = '';
+
+            for (let i = 1; i <= 10; i++) {
+                const imageUrl = `img/${category}/${i}.jpeg`;
+
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.dataset.image = imageUrl;
+
+                const galleryImage = document.createElement('img');
+                galleryImage.className = 'gallery-image';
+                galleryImage.src = imageUrl;
+                galleryImage.alt = `${category} image ${i}`;
+
+                galleryItem.appendChild(galleryImage);
+                imageGallery.appendChild(galleryItem);
+
+                if (imageUrl === currentImage) {
+                    galleryItem.classList.add('active');
+                }
+
+                galleryItem.addEventListener('click', function () {
+                    document.querySelectorAll('.gallery-item').forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+
+                    currentImage = imageUrl;
+                    resetTransform();
+                    updatePreview();
+                });
+            }
+        }
+
+        // ========= EVENTS =========
+        function initEvents() {
+            // Color selection (frame border)
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const color = this.dataset.color;
+                    frameContainer.style.borderColor = color;
+                });
+            });
+
+            // Tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    currentCategory = this.dataset.category;
+                    loadCategoryImages(currentCategory);
+                });
+            });
+
+            // Open modal
+            editImageBtn.addEventListener('click', () => {
+                editableImage.style.backgroundImage = `url('${currentImage}')`;
+                applyTransformToElement(editableImage);
+                setFrameDimensions(models[currentModelKey].ratio); // ensure editor ratio correct
+                imageEditorModal.classList.add('active');
+                initImageEditorGestures();
+            });
+
+            // Close modal
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelEditBtn.addEventListener('click', closeModal);
+
+            // Save Changes from modal -> apply to preview
+            saveEditBtn.addEventListener('click', () => {
+                updatePreview();
+                closeModal();
+            });
+
+            // Reset position
+            resetPositionBtn.addEventListener('click', () => {
+                resetTransform();
+            });
+
+            // Save design (placeholder)
+            saveButton.addEventListener('click', () => {
+                alert('Your design has been saved!');
+            });
+        }
+
+        function closeModal() {
+            imageEditorModal.classList.remove('active');
+            removeImageEditorGestures();
+        }
+
+        // ========= IMAGE EDITOR GESTURES =========
+        let isDragging = false;
+        let lastX = 0, lastY = 0;
+        let startDistance = null, startScale = 1;
+        let startAngle = null, startRotation = 0;
+
+        function initImageEditorGestures() {
+            // mouse
+            editorFrame.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', dragMove);
+            document.addEventListener('mouseup', endDrag);
+
+            // wheel zoom
+            editorFrame.addEventListener('wheel', onWheel, { passive: false });
+
+            // touch
+            editorFrame.addEventListener('touchstart', onTouchStart, { passive: false });
+            editorFrame.addEventListener('touchmove', onTouchMove, { passive: false });
+            editorFrame.addEventListener('touchend', onTouchEnd);
+        }
+
+        function removeImageEditorGestures() {
+            editorFrame.removeEventListener('mousedown', startDrag);
+            document.removeEventListener('mousemove', dragMove);
+            document.removeEventListener('mouseup', endDrag);
+
+            editorFrame.removeEventListener('wheel', onWheel);
+
+            editorFrame.removeEventListener('touchstart', onTouchStart);
+            editorFrame.removeEventListener('touchmove', onTouchMove);
+            editorFrame.removeEventListener('touchend', onTouchEnd);
+        }
+
+        function startDrag(e) {
+            isDragging = true;
+            lastX = e.clientX;
+            lastY = e.clientY;
+            e.preventDefault();
+        }
+
+        function dragMove(e) {
+            if (!isDragging) return;
+
+            const deltaX = e.clientX - lastX;
+            const deltaY = e.clientY - lastY;
+
+            imageTransform.translateX += deltaX;
+            imageTransform.translateY += deltaY;
+
+            lastX = e.clientX;
+            lastY = e.clientY;
+
+            applyTransformToElement(editableImage);
+            e.preventDefault();
+        }
+
+        function endDrag() {
+            isDragging = false;
+        }
+
+        function onWheel(e) {
+            e.preventDefault();
+
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            let newScale = imageTransform.scale + delta;
+            newScale = Math.max(0.3, Math.min(4, newScale));
+            imageTransform.scale = newScale;
+
+            applyTransformToElement(editableImage);
+        }
+
+        function onTouchStart(e) {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                lastX = e.touches[0].clientX;
+                lastY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                const [t1, t2] = e.touches;
+                startDistance = getDistance(t1, t2);
+                startScale = imageTransform.scale;
+                startAngle = getAngle(t1, t2);
+                startRotation = imageTransform.rotate;
+            }
+            e.preventDefault();
+        }
+
+        function onTouchMove(e) {
+            if (e.touches.length === 1 && isDragging) {
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - lastX;
+                const deltaY = touch.clientY - lastY;
+
+                imageTransform.translateX += deltaX;
+                imageTransform.translateY += deltaY;
+
+                lastX = touch.clientX;
+                lastY = touch.clientY;
+
+                applyTransformToElement(editableImage);
+            } else if (e.touches.length === 2) {
+                const [t1, t2] = e.touches;
+
+                const dist = getDistance(t1, t2);
+                const angle = getAngle(t1, t2);
+
+                if (startDistance !== null) {
+                    let scaleFactor = dist / startDistance;
+                    let newScale = startScale * scaleFactor;
+                    newScale = Math.max(0.3, Math.min(4, newScale));
+                    imageTransform.scale = newScale;
+                }
+
+                if (startAngle !== null) {
+                    const angleDiff = angle - startAngle;
+                    imageTransform.rotate = startRotation + angleDiff;
+                }
+
+                applyTransformToElement(editableImage);
+            }
+
+            e.preventDefault();
+        }
+
+        function onTouchEnd(e) {
+            if (e.touches.length === 0) {
+                isDragging = false;
+                startDistance = null;
+                startAngle = null;
+            }
+        }
+
+        function getDistance(t1, t2) {
+            const dx = t1.clientX - t2.clientX;
+            const dy = t1.clientY - t2.clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function getAngle(t1, t2) {
+            const dx = t2.clientX - t1.clientX;
+            const dy = t2.clientY - t1.clientY;
+            return Math.atan2(dy, dx) * 180 / Math.PI;
+        }
+    </script>
+</body>
+</html>
