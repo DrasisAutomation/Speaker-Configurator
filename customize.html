@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -214,7 +215,8 @@
             position: relative;
             overflow: hidden;
             background-color: #f5f5f5;
-            border: 8px solid #c0c0c0; /* 8px FRAME BORDER */
+            border: 8px solid #c0c0c0;
+            /* 8px FRAME BORDER */
             transition: border-color 0.3s;
             border-radius: 8px;
         }
@@ -326,11 +328,18 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.18);
         }
 
-        .gallery-image {
+        .gallery-item {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            aspect-ratio: 9 / 16;
+            /* FORCE PORTRAIT */
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            border: 3px solid transparent;
+            transition: border 0.3s, transform 0.2s, box-shadow 0.2s;
         }
+
 
         /* Buttons */
         .action-buttons {
@@ -632,6 +641,37 @@
                 font-size: 1.3rem;
             }
         }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .gallery-item {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            /* force portrait */
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            /* REQUIRED for absolute image */
+            border: 3px solid transparent;
+            transition: border 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gallery-image {
+            position: absolute;
+            /* FIX: allows perfect fitting */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* fills entire portrait box */
+            object-position: center;
+        }
     </style>
 </head>
 
@@ -676,33 +716,33 @@
     <!-- Main Content -->
     <div class="container">
         <h2 class="section-title" id="model-title" style="display: none;">Customize Your Speaker</h2>
-        
+
         <div class="customize-grid">
             <!-- Preview Section -->
             <div class="preview-section">
                 <h3 class="preview-title" id="preview-title">TA-4 Customization</h3>
-                
+
                 <div class="preview-frame">
                     <div class="frame-container" id="frame-container">
                         <div class="frame-image" id="preview-image"></div>
                     </div>
                 </div>
-                
+
                 <div class="model-specs">
                     <p id="model-dimensions">Dimensions: 450×300×66.7 mm</p>
                     <p id="model-power">Power: 60W / 8 ohms</p>
                 </div>
-                
+
                 <div class="color-options">
                     <div class="color-option color-silver active" data-color="#c0c0c0"></div>
                     <div class="color-option color-gold" data-color="#d4af37"></div>
                 </div>
             </div>
-            
+
             <!-- Options Section -->
             <div class="options-section">
                 <h3 class="options-title">Customization Options</h3>
-                
+
                 <div class="tabs">
                     <div class="tab active" data-category="art">Art</div>
                     <div class="tab" data-category="cubism">Cubism</div>
@@ -710,15 +750,18 @@
                     <div class="tab" data-category="realistic">realistic</div>
                     <div class="tab" data-category="buddha">Buddha</div>
                 </div>
-                
+
                 <div class="gallery" id="image-gallery">
                     <!-- Images will be dynamically loaded here -->
                 </div>
-                
+
                 <div class="action-buttons">
+                    <input type="file" id="upload-image" accept="image/*" style="display:none;">
+                    <button class="btn btn-secondary" id="upload-btn">Upload Image</button>
                     <button class="btn btn-secondary" id="edit-image-btn">Edit Image</button>
                     <button class="btn btn-primary" id="save-button">Save Design</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -976,6 +1019,25 @@
 
         // ========= EVENTS =========
         function initEvents() {
+            // Upload button opens file picker
+            document.getElementById("upload-btn").addEventListener("click", () => {
+                document.getElementById("upload-image").click();
+            });
+
+            // When a file is selected
+            document.getElementById("upload-image").addEventListener("change", function (event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    currentImage = e.target.result; // base64 image
+                    resetTransform();
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+
             // Color selection (frame border)
             colorOptions.forEach(option => {
                 option.addEventListener('click', function () {
@@ -1000,7 +1062,7 @@
 
             // Open modal
             editImageBtn.addEventListener('click', () => {
-                editableImage.style.backgroundImage = `url('${currentImage}')`;
+                editableImage.style.backgroundImage = `url(${currentImage})`;
                 applyTransformToElement(editableImage);
                 setFrameDimensions(models[currentModelKey].ratio); // ensure editor ratio correct
                 imageEditorModal.classList.add('active');
@@ -1178,4 +1240,5 @@
         }
     </script>
 </body>
+
 </html>
