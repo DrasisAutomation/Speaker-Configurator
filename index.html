@@ -657,23 +657,7 @@
 </head>
 
 <body>
-    <!-- PREVENT FLASH -->
-<style>
-    html.loading-hidden, html.loading-hidden body {
-        display: none !important;
-    }
-</style>
 
-<script>
-    // Hide page immediately
-    document.documentElement.classList.add("loading-hidden");
-
-    // If user is not coming from loader.html, redirect
-    if (!sessionStorage.getItem("loaded_index")) {
-        sessionStorage.setItem("loaded_index", "yes");
-        window.location.href = "loader.html?redirect=index.html";
-    }
-</script>
 
     <!-- Header -->
     <header>
@@ -683,10 +667,10 @@
             </div>
             <nav>
                 <ul class="nav-links">
-            <li><a href="loader.html?redirect=index.html" class="active">Home</a></li>
-            <li><a href="loader.html?redirect=home.html">Customize</a></li>
-            <li><a href="loader.html?redirect=saved-designs.html">Saved Designs</a></li>
-            <li><a href="loader.html?redirect=https://tremblaysound.com/">Tremblay</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="home.html">Customize</a></li>
+            <li><a href="saved-designs.html">Saved Designs</a></li>
+            <li><a href="https://tremblaysound.com/">Tremblay</a></li>
                 </ul>
             </nav>
             <div class="mobile-menu">
@@ -704,10 +688,10 @@
             </button>
         </div>
         <ul class="sidebar-links">
-            <li><a href="loader.html?redirect=index.html" class="active">Home</a></li>
-            <li><a href="loader.html?redirect=home.html">Customize</a></li>
-            <li><a href="loader.html?redirect=saved-designs.html">Saved Designs</a></li>
-            <li><a href="loader.html?redirect=https://tremblaysound.com/">Tremblay</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="home.html">Customize</a></li>
+            <li><a href="saved-designs.html">Saved Designs</a></li>
+            <li><a href="https://tremblaysound.com/">Tremblay</a></li>
         </ul>
     </div>
     <div class="overlay"></div>
@@ -792,15 +776,8 @@
             }, 2000); // 2 seconds
         });
     </script>
-<script>
-    // Remove hidden after full load
-    window.onload = () => {
-        document.documentElement.classList.remove("loading-hidden");
-    };
-</script>
 
-
-
+    <script src="loader.js"></script>
 </body>
 
 </html>
