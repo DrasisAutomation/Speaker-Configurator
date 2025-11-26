@@ -259,6 +259,10 @@
             background-color: #d4af37;
         }
 
+        .color-titanium-gold {
+            background-color: #d4af37;
+        }
+
         .model-specs {
             font-size: 0.95rem;
             color: #444;
@@ -302,6 +306,7 @@
         .tab.active {
             color: #4a6ee0;
             border-bottom: 3px solid #4a6ee0;
+            font-weight: bold;
         }
 
         /* Gallery */
@@ -479,6 +484,7 @@
             z-index: 5;
         }
 
+
         .ratio-overlay::before {
             content: '';
             position: absolute;
@@ -492,12 +498,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: contain;
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            cursor: grab;
             transform-origin: center;
         }
+
 
         .editor-controls {
             display: flex;
@@ -684,10 +690,10 @@
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+            <li><a href="loader.html?redirect=index.html">Home</a></li>
+            <li><a href="loader.html?redirect=home.html"  class="active">Customize</a></li>
+            <li><a href="loader.html?redirect=saved-designs.html">Saved Designs</a></li>
+            <li><a href="loader.html?redirect=https://tremblaysound.com/">Tremblay</a></li>
                 </ul>
             </nav>
             <div class="mobile-menu">
@@ -705,10 +711,10 @@
             </button>
         </div>
         <ul class="sidebar-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="loader.html?redirect=index.html">Home</a></li>
+            <li><a href="loader.html?redirect=home.html"  class="active">Customize</a></li>
+            <li><a href="loader.html?redirect=saved-designs.html">Saved Designs</a></li>
+            <li><a href="loader.html?redirect=https://tremblaysound.com/">Tremblay</a></li>
         </ul>
     </div>
     <div class="overlay"></div>
@@ -734,8 +740,8 @@
                 </div>
 
                 <div class="color-options">
-                    <div class="color-option color-silver active" data-color="#c0c0c0"></div>
-                    <div class="color-option color-gold" data-color="#d4af37"></div>
+                    <div class="color-option color-silver active" data-color="#c0c0c0" data-name="Silver"></div>
+                    <div class="color-option color-titanium-gold" data-color="#DDB67D" data-name="Titanium Gold"></div>
                 </div>
             </div>
 
@@ -809,12 +815,6 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">TREMBLAY <span>SOUND</span></div>
-            <ul class="footer-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
             <div class="copyright">© 2023 Tremblay Sound. All rights reserved.</div>
         </div>
     </footer>
@@ -866,6 +866,8 @@
         let currentModelKey = null;
         let currentCategory = "art";
         let currentImage = null;
+        let selectedColorName = "Silver";
+        let selectedColorCode = "#c0c0c0";
 
         // single transform object used for both preview + editor
         let imageTransform = {
@@ -923,6 +925,11 @@
             // default image
             currentImage = 'img/art/1.jpeg';
 
+            // Set Silver as default color
+            selectedColorName = "Silver";
+            selectedColorCode = "#c0c0c0";
+            frameContainer.style.borderColor = "#c0c0c0";
+
             // initial preview
             updatePreview();
 
@@ -947,12 +954,10 @@
             // editor frame same ratio
             if (editorFrame) {
                 // keep width limited for modal
-                const maxEditorWidth = 350;
-                const editorWidth = Math.min(frameWidth, maxEditorWidth);
-                const editorHeight = editorWidth * (heightRatio / widthRatio);
+                // Editor MUST match preview box exactly
+                editorFrame.style.width = `${frameWidth}px`;
+                editorFrame.style.height = `${frameHeight}px`;
 
-                editorFrame.style.width = `${editorWidth}px`;
-                editorFrame.style.height = `${editorHeight}px`;
             }
         }
 
@@ -1044,8 +1049,9 @@
                     colorOptions.forEach(opt => opt.classList.remove('active'));
                     this.classList.add('active');
 
-                    const color = this.dataset.color;
-                    frameContainer.style.borderColor = color;
+                    selectedColorName = this.dataset.name;
+                    selectedColorCode = this.dataset.color;
+                    frameContainer.style.borderColor = selectedColorCode;
                 });
             });
 
@@ -1086,8 +1092,29 @@
 
             // Save design (placeholder)
             saveButton.addEventListener('click', () => {
-                alert('Your design has been saved!');
+                const design = {
+                    model: currentModelKey,
+                    dimensions: models[currentModelKey].dimensions,
+                    power: models[currentModelKey].power,
+                    frameColor: selectedColorName,
+                    frameColorCode: selectedColorCode,
+                    image: currentImage,
+                    transform: imageTransform,
+                    savedAt: new Date().toLocaleString()
+                };
+
+                // Load existing designs
+                const existing = JSON.parse(localStorage.getItem("savedDesigns") || "[]");
+
+                // Add new one
+                existing.push(design);
+
+                // Save back
+                localStorage.setItem("savedDesigns", JSON.stringify(existing));
+
+                alert("Design Saved Successfully!");
             });
+
         }
 
         function closeModal() {

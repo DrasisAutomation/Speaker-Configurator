@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tremblay Sound - HiFi Art Series</title>
+    <title>Tremblay Sound - Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -72,7 +72,8 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: #4a6ee0;
         }
 
@@ -150,219 +151,400 @@
             display: block;
         }
 
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-            flex: 1;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2rem;
-            position: relative;
-            color: #222;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: #4a6ee0;
-            border-radius: 2px;
-        }
-
-        /* Speaker Cards */
-        .speakers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-        }
-
-        .speaker-card {
-            overflow: visible;
+        /* Hero Section */
+        .hero {
             width: 100%;
-            min-width: 320px;
-            height: 420px;
-            perspective: 1000px;
-            margin-bottom: 2rem;
-        }
-
-        .speaker-content {
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 800ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-        }
-
-        .speaker-front,
-        .speaker-back {
-            background-color: white;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .speaker-back {
-            transform: rotateY(180deg);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 30px;
-            color: #333;
             text-align: center;
-        }
-
-        .customize-btn-container {
+            padding: 4rem 2rem;
+            background-image: url('./img/Tremblay - Banner.png');
+            background-size: cover;
+            /* FULL WIDTH */
+            background-position: center;
+            /* CENTERED */
+            background-repeat: no-repeat;
             position: relative;
-            margin-top: 20px;
-            overflow: hidden;
-            border-radius: 10px;
         }
 
-        .customize-btn {
-            position: relative;
-            padding: 12px 30px;
-            font-size: 16px;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            overflow: hidden;
-            z-index: 1;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 15px rgba(37, 117, 252, 0.3);
-        }
 
-        .customize-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(37, 117, 252, 0.4);
-        }
-
-        .customize-btn:active {
-            transform: translateY(0);
-        }
-
-        .customize-btn::before {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.4),
-                    transparent);
-            transition: left 0.7s ease;
-            z-index: -1;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
         }
 
-        .customize-btn:hover::before {
-            left: 100%;
+        .hero-content {
+            max-width: 800px;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
         }
 
-        .speaker-card:hover .speaker-content {
-            transform: rotateY(180deg);
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: white;
         }
 
-        .speaker-front {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .speaker-image {
-            height: 70%;
-            width: 100%;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .speaker-info {
-            padding: 1rem;
-            height: 30%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border-top: 1px solid #eee;
-        }
-
-        .speaker-name {
+        .hero-subtitle {
             font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #222;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            line-height: 1.6;
         }
 
-        .speaker-specs {
-            font-size: 0.9rem;
-            color: #666;
+        /* Custom Button Styles */
+        .btn-wrapper {
+            position: relative;
+            display: inline-block;
         }
 
-        .speaker-back-image {
-            height: 100%;
-            width: 100%;
-            background-size: cover;
-            background-position: center;
+        .btn {
+            --border-radius: 24px;
+            --padding: 4px;
+            --transition: 0.4s;
+            --button-color: #101010;
+            --highlight-color-hue: 210deg;
+
+            user-select: none;
             display: flex;
             justify-content: center;
-            align-items: center;
-        }
+            padding: 0.5em 0.5em 0.5em 1.1em;
+            font-family: "Poppins", "Inter", "Segoe UI", sans-serif;
+            font-size: 1em;
+            font-weight: 400;
 
-        .speaker-back-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 1rem;
-        }
+            background-color: var(--button-color);
 
-        .speaker-description {
-            margin-bottom: 1.5rem;
-            text-align: center;
-            color: #555;
-        }
+            box-shadow:
+                /* inset */
+                inset 0px 1px 1px rgba(255, 255, 255, 0.2),
+                inset 0px 2px 2px rgba(255, 255, 255, 0.15),
+                inset 0px 4px 4px rgba(255, 255, 255, 0.1),
+                inset 0px 8px 8px rgba(255, 255, 255, 0.05),
+                inset 0px 16px 16px rgba(255, 255, 255, 0.05),
+                /* drop */
+                0px -1px 1px rgba(0, 0, 0, 0.02),
+                0px -2px 2px rgba(0, 0, 0, 0.03),
+                0px -4px 4px rgba(0, 0, 0, 0.05),
+                0px -8px 8px rgba(0, 0, 0, 0.06),
+                0px -16px 16px rgba(0, 0, 0, 0.08);
 
-        .speaker-color-options {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 1.5rem;
-        }
-
-        .speaker-color-option {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
+            border: solid 1px #fff2;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            border: 2px solid transparent;
-            transition: border 0.3s;
+
+            transition:
+                box-shadow var(--transition),
+                border var(--transition),
+                background-color var(--transition);
         }
 
-        .speaker-color-option.active {
-            border: 2px solid #333;
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: calc(0px - var(--padding));
+            left: calc(0px - var(--padding));
+            width: calc(100% + var(--padding) * 2);
+            height: calc(100% + var(--padding) * 2);
+            border-radius: calc(var(--border-radius) + var(--padding));
+            pointer-events: none;
+            background-image: linear-gradient(0deg, #0004, #000a);
+
+            z-index: -1;
+            transition:
+                box-shadow var(--transition),
+                filter var(--transition);
+            box-shadow:
+                0 -8px 8px -6px #0000 inset,
+                0 -16px 16px -8px #00000000 inset,
+                1px 1px 1px #fff2,
+                2px 2px 2px #fff1,
+                -1px -1px 1px #0002,
+                -2px -2px 2px #0001;
         }
 
-        .color-silver {
-            background-color: #c0c0c0;
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            pointer-events: none;
+            background-image: linear-gradient(0deg,
+                    #fff,
+                    hsl(var(--highlight-color-hue), 100%, 70%),
+                    hsla(var(--highlight-color-hue), 100%, 70%, 50%),
+                    8%,
+                    transparent);
+            background-position: 0 0;
+            opacity: 0;
+            transition:
+                opacity var(--transition),
+                filter var(--transition);
         }
 
-        .color-gold {
-            background-color: #d4af37;
+        .btn-letter {
+            position: relative;
+            display: inline-block;
+            color: #fff5;
+            animation: letter-anim 2s ease-in-out infinite;
+            transition:
+                color var(--transition),
+                text-shadow var(--transition),
+                opacity var(--transition);
+        }
+
+        @keyframes letter-anim {
+            50% {
+                text-shadow: 0 0 3px #fff8;
+                color: #fff;
+            }
+        }
+
+        .btn-svg {
+            flex-grow: 1;
+            height: 24px;
+            margin-right: 0.5rem;
+            fill: #e8e8e8;
+            animation: flicker 2s linear infinite;
+            animation-delay: 0.5s;
+            filter: drop-shadow(0 0 2px #fff9);
+            transition:
+                fill var(--transition),
+                filter var(--transition),
+                opacity var(--transition);
+        }
+
+        @keyframes flicker {
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Focus state */
+        .txt-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-width: 6.4em;
+        }
+
+        .txt-1,
+        .txt-2 {
+            position: absolute;
+            word-spacing: -1em;
+        }
+
+        .txt-1 {
+            animation: appear-anim 1s ease-in-out forwards;
+        }
+
+        .txt-2 {
+            opacity: 0;
+        }
+
+        @keyframes appear-anim {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .btn:focus .txt-1 {
+            animation: opacity-anim 0.3s ease-in-out forwards;
+            animation-delay: 1s;
+        }
+
+        .btn:focus .txt-2 {
+            animation: opacity-anim 0.3s ease-in-out reverse forwards;
+            animation-delay: 1s;
+        }
+
+        @keyframes opacity-anim {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .btn:focus .btn-letter {
+            animation:
+                focused-letter-anim 1s ease-in-out forwards,
+                letter-anim 1.2s ease-in-out infinite;
+            animation-delay: 0s, 1s;
+        }
+
+        @keyframes focused-letter-anim {
+
+            0%,
+            100% {
+                filter: blur(0px);
+            }
+
+            50% {
+                transform: scale(2);
+                filter: blur(10px) brightness(150%) drop-shadow(-36px 12px 12px hsl(var(--highlight-color-hue), 100%, 70%));
+            }
+        }
+
+        .btn:focus .btn-svg {
+            animation-duration: 1.2s;
+            animation-delay: 0.2s;
+        }
+
+        .btn:focus::before {
+            box-shadow:
+                0 -8px 12px -6px #fff3 inset,
+                0 -16px 16px -8px hsla(var(--highlight-color-hue), 100%, 70%, 20%) inset,
+                1px 1px 1px #fff3,
+                2px 2px 2px #fff1,
+                -1px -1px 1px #0002,
+                -2px -2px 2px #0001;
+        }
+
+        .btn:focus::after {
+            opacity: 0.6;
+            mask-image: linear-gradient(0deg, #fff, transparent);
+            filter: brightness(100%);
+        }
+
+        /* Animation delays for .btn-letter elements */
+        .btn-letter:nth-child(1),
+        .btn:focus .btn-letter:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .btn-letter:nth-child(2),
+        .btn:focus .btn-letter:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .btn-letter:nth-child(3),
+        .btn:focus .btn-letter:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        .btn-letter:nth-child(4),
+        .btn:focus .btn-letter:nth-child(4) {
+            animation-delay: 0.24s;
+        }
+
+        .btn-letter:nth-child(5),
+        .btn:focus .btn-letter:nth-child(5) {
+            animation-delay: 0.32s;
+        }
+
+        .btn-letter:nth-child(6),
+        .btn:focus .btn-letter:nth-child(6) {
+            animation-delay: 0.4s;
+        }
+
+        .btn-letter:nth-child(7),
+        .btn:focus .btn-letter:nth-child(7) {
+            animation-delay: 0.48s;
+        }
+
+        .btn-letter:nth-child(8),
+        .btn:focus .btn-letter:nth-child(8) {
+            animation-delay: 0.56s;
+        }
+
+        .btn-letter:nth-child(9),
+        .btn:focus .btn-letter:nth-child(9) {
+            animation-delay: 0.64s;
+        }
+
+        .btn-letter:nth-child(10),
+        .btn:focus .btn-letter:nth-child(10) {
+            animation-delay: 0.72s;
+        }
+
+        .btn-letter:nth-child(11),
+        .btn:focus .btn-letter:nth-child(11) {
+            animation-delay: 0.8s;
+        }
+
+        .btn-letter:nth-child(12),
+        .btn:focus .btn-letter:nth-child(12) {
+            animation-delay: 0.88s;
+        }
+
+        .btn-letter:nth-child(13),
+        .btn:focus .btn-letter:nth-child(13) {
+            animation-delay: 0.96s;
+        }
+
+        /* Active state */
+        .btn:active {
+            border: solid 1px hsla(var(--highlight-color-hue), 100%, 80%, 70%);
+            background-color: hsla(var(--highlight-color-hue), 50%, 20%, 0.5);
+        }
+
+        .btn:active::before {
+            box-shadow:
+                0 -8px 12px -6px #fffa inset,
+                0 -16px 16px -8px hsla(var(--highlight-color-hue), 100%, 70%, 80%) inset,
+                1px 1px 1px #fff4,
+                2px 2px 2px #fff2,
+                -1px -1px 1px #0002,
+                -2px -2px 2px #0001;
+        }
+
+        .btn:active::after {
+            opacity: 1;
+            mask-image: linear-gradient(0deg, #fff, transparent);
+            filter: brightness(200%);
+        }
+
+        .btn:active .btn-letter {
+            text-shadow: 0 0 1px hsla(var(--highlight-color-hue), 100%, 90%, 90%);
+            animation: none;
+        }
+
+        /* Hover state */
+        .btn:hover {
+            border: solid 1px hsla(var(--highlight-color-hue), 100%, 80%, 40%);
+        }
+
+        .btn:hover::before {
+            box-shadow:
+                0 -8px 8px -6px #fffa inset,
+                0 -16px 16px -8px hsla(var(--highlight-color-hue), 100%, 70%, 30%) inset,
+                1px 1px 1px #fff2,
+                2px 2px 2px #fff1,
+                -1px -1px 1px #0002,
+                -2px -2px 2px #0001;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+            mask-image: linear-gradient(0deg, #fff, transparent);
+        }
+
+        .btn:hover .btn-svg {
+            fill: #fff;
+            filter: drop-shadow(0 0 3px hsl(var(--highlight-color-hue), 100%, 70%)) drop-shadow(0 -4px 6px #0009);
+            animation: none;
         }
 
         /* Footer */
@@ -387,6 +569,10 @@
             font-weight: 700;
             margin-bottom: 1rem;
             color: #222;
+        }
+
+        .footer-logo span {
+            color: #4a6ee0;
         }
 
         .footer-links {
@@ -414,73 +600,6 @@
             color: #666;
         }
 
-        .speaker-back {
-            transform: rotateY(180deg);
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            overflow: hidden;
-            padding: 20;
-        }
-
-        .speaker-back-image {
-            height: 100%;
-            width: 100%;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 12px;
-        }
-
-        /* Button container */
-        .customize-btn-container {
-            margin-top: 0;
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        /* Glossy Button */
-        .customize-btn {
-            position: relative;
-            padding: 12px 30px;
-            font-size: 16px;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            overflow: hidden;
-            z-index: 1;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 15px rgba(37, 117, 252, 0.3);
-        }
-
-        .customize-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(37, 117, 252, 0.4);
-        }
-
-        .customize-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.7s ease;
-            z-index: -1;
-        }
-
-        .customize-btn:hover::before {
-            left: 100%;
-        }
-
-
         /* Responsive Styles */
         @media (max-width: 768px) {
             .nav-links {
@@ -491,8 +610,12 @@
                 display: block;
             }
 
-            .speakers-grid {
-                grid-template-columns: 1fr;
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
             }
 
             .footer-links {
@@ -504,63 +627,54 @@
             }
         }
 
-        @media (max-width: 390px) {
-            header {
-                padding: 0.8rem 1rem;
-                /* smaller padding */
-            }
-
-            .header-container {
-                flex-wrap: wrap;
-                /* allows elements to adjust */
-            }
-
-            .logo h1 {
-                font-size: 1.4rem;
-                /* shrink logo text */
-            }
-
-            .mobile-menu {
-                font-size: 1.3rem;
-                /* adjust menu icon */
-            }
-        }
-
-        /* Mobile Only */
         @media (max-width: 480px) {
-            .speaker-card {
-                min-width: 270px;
-                margin-bottom: 1.5rem;
+            .hero-title {
+                font-size: 2rem;
             }
 
-            .speaker-image {
-                height: 65% !important;
-            }
-
-            .speaker-info {
-                height: 35% !important;
-                padding: 0.8rem !important;
-            }
-
-            .speaker-name {
-                font-size: 1.2rem !important;
-            }
-
-            .speaker-specs {
-                font-size: 0.8rem !important;
+            .hero-subtitle {
+                font-size: 1rem;
             }
         }
+        @media (max-width: 768px) {
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+}
 
-        /* Ultra small screens like 360px */
-        @media (max-width: 360px) {
-            .speaker-card {
-                height: 450px;
-            }
-        }
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 390px) {
+    .logo h1 {
+        font-size: 1.4rem;
+    }
+}
     </style>
 </head>
 
 <body>
+    <!-- PREVENT FLASH -->
+<style>
+    html.loading-hidden, html.loading-hidden body {
+        display: none !important;
+    }
+</style>
+
+<script>
+    // Hide page immediately
+    document.documentElement.classList.add("loading-hidden");
+
+    // If user is not coming from loader.html, redirect
+    if (!sessionStorage.getItem("loaded_index")) {
+        sessionStorage.setItem("loaded_index", "yes");
+        window.location.href = "loader.html?redirect=index.html";
+    }
+</script>
+
     <!-- Header -->
     <header>
         <div class="header-container">
@@ -569,10 +683,10 @@
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+            <li><a href="loader.html?redirect=index.html" class="active">Home</a></li>
+            <li><a href="loader.html?redirect=home.html">Customize</a></li>
+            <li><a href="loader.html?redirect=saved-designs.html">Saved Designs</a></li>
+            <li><a href="loader.html?redirect=https://tremblaysound.com/">Tremblay</a></li>
                 </ul>
             </nav>
             <div class="mobile-menu">
@@ -590,102 +704,65 @@
             </button>
         </div>
         <ul class="sidebar-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="loader.html?redirect=index.html" class="active">Home</a></li>
+            <li><a href="loader.html?redirect=home.html">Customize</a></li>
+            <li><a href="loader.html?redirect=saved-designs.html">Saved Designs</a></li>
+            <li><a href="loader.html?redirect=https://tremblaysound.com/">Tremblay</a></li>
         </ul>
     </div>
     <div class="overlay"></div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <h2 class="section-title">HiFi Art Series</h2>
-        <div class="speakers-grid">
-            <!-- TA-4 Speaker Card -->
-            <div class="speaker-card">
-                <div class="speaker-content">
-                    <div class="speaker-front">
-                        <div class="speaker-image" style="background-image: url('img/frames/1.png')">
-                        </div>
-                        <div class="speaker-info">
-                            <div class="speaker-name">TA-4</div>
-                            <div class="speaker-specs">60W / 8 ohms | 450×300×66.7 mm</div>
-                        </div>
-                    </div>
-                    <div class="speaker-back">
-                        <div class="speaker-back-image" style="background-image: url('img/car/1.jpeg');">
-                            <div class="customize-btn-container">
-                                <button class="customize-btn">Customize</button>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Customize Your Sound, Personalize Your Style.</h1>
+            <p class="hero-subtitle">At Tremblay Sound, we believe your audio equipment should be as unique as you are.
+                Our premium customizable speakers allow you to create a truly personal audio experience that reflects
+                your individual style and taste. Choose from our selection of high-performance models, select your
+                preferred frame colors, and add your own custom artwork to create a speaker that's uniquely yours.</p>
 
-                </div>
-            </div>
+            <div class="btn-wrapper">
+                <a href="#" id="delayCustomize" class="btn">
 
-            <!-- TA-6 Speaker Card -->
-            <div class="speaker-card">
-                <div class="speaker-content">
-                    <div class="speaker-front">
-                        <div class="speaker-image" style="background-image: url('img/frames/2.png')">
+                    <svg class="btn-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z">
+                        </path>
+                    </svg>
+
+                    <div class="txt-wrapper">
+                        <div class="txt-1">
+                            <span class="btn-letter">C</span>
+                            <span class="btn-letter">u</span>
+                            <span class="btn-letter">s</span>
+                            <span class="btn-letter">t</span>
+                            <span class="btn-letter">o</span>
+                            <span class="btn-letter">m</span>
+                            <span class="btn-letter">i</span>
+                            <span class="btn-letter">z</span>
+                            <span class="btn-letter">e</span>
                         </div>
-                        <div class="speaker-info">
-                            <div class="speaker-name">TA-6</div>
-                            <div class="speaker-specs">90W / 6 ohms | 750×375×66.7 mm</div>
+                        <div class="txt-2">
+                            <span class="btn-letter">C</span>
+                            <span class="btn-letter">u</span>
+                            <span class="btn-letter">s</span>
+                            <span class="btn-letter">t</span>
+                            <span class="btn-letter">o</span>
+                            <span class="btn-letter">m</span>
+                            <span class="btn-letter">i</span>
+                            <span class="btn-letter">z</span>
+                            <span class="btn-letter">i</span>
+                            <span class="btn-letter">n</span>
+                            <span class="btn-letter">g</span>
                         </div>
                     </div>
-                    <div class="speaker-back">
-                        <div class="speaker-back-image" style="background-image: url('img/cubism/3.jpeg');">
-                            <div class="customize-btn-container">
-                                <button class="customize-btn">Customize</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- TA-8 Speaker Card -->
-            <div class="speaker-card">
-                <div class="speaker-content">
-                    <div class="speaker-front">
-                        <div class="speaker-image" style="background-image: url('img/frames/3.png')">
-                        </div>
-                        <div class="speaker-info">
-                            <div class="speaker-name">TA-8</div>
-                            <div class="speaker-specs">120W / 4 ohms | 900×600×66.7 mm</div>
-                        </div>
-                    </div>
-                    <div class="speaker-back">
-                        <div class="speaker-back-image" style="background-image: url('img/art/5.jpeg');">
-                            <div class="customize-btn-container">
-                                <button class="customize-btn">Customize</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                </a>
             </div>
         </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">TREMBLAY <span>SOUND</span></div>
-            <ul class="footer-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            <div class="copyright">© 2023 Tremblay Sound. All rights reserved.</div>
-        </div>
-    </footer>
+    </section>
 
     <script>
-        // Mobile menu functionality
+        // ========= MOBILE MENU =========
         const mobileMenu = document.querySelector('.mobile-menu');
         const sidebar = document.querySelector('.sidebar');
         const closeSidebar = document.querySelector('.close-sidebar');
@@ -705,34 +782,24 @@
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
         });
-
-        // Color selection functionality
-        const colorOptions = document.querySelectorAll('.speaker-color-option');
-
-        colorOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                // Remove active class from all options in the same container
-                const parent = option.parentElement;
-                parent.querySelectorAll('.speaker-color-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-
-                // Add active class to clicked option
-                option.classList.add('active');
-            });
-        });
     </script>
     <script>
-document.querySelectorAll('.speaker-card').forEach(card => {
-    const modelName = card.querySelector('.speaker-name').textContent.trim();
-    const customizeBtn = card.querySelector('.customize-btn');
-
-    customizeBtn.addEventListener('click', () => {
-        // Redirect with model name
-        window.location.href = `customize.html?model=${modelName}`;
-    });
-});
+        // 2 second delay before navigating
+        document.getElementById('delayCustomize').addEventListener('click', (e) => {
+            e.preventDefault();
+            setTimeout(() => {
+                window.location.href = "home.html";
+            }, 2000); // 2 seconds
+        });
+    </script>
+<script>
+    // Remove hidden after full load
+    window.onload = () => {
+        document.documentElement.classList.remove("loading-hidden");
+    };
 </script>
+
+
 
 </body>
 
